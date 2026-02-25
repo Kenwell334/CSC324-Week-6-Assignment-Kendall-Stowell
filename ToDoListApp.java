@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class ToDoListApp {
     // Stores the list of tasks
     private static ArrayList<String> tasks = new ArrayList<>();
+    private static final ArrayList<String> deadlines = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Scanner for user input
@@ -25,7 +26,8 @@ public class ToDoListApp {
             System.out.println("1. Add Task");
             System.out.println("2. View Tasks");
             System.out.println("3. Remove Task");
-            System.out.println("4. Exit");
+            System.out.println("4. Deadline");
+            System.out.println("5. Exit");
             System.out.print("Enter choice: ");
 
             // Read user input (menu choice)
@@ -37,12 +39,25 @@ public class ToDoListApp {
                 case 1 -> addTask(scanner); // Call method to add a task
                 case 2 -> viewTasks(); // Call method to display tasks
                 case 3 -> removeTask(scanner); // Call method to remove a task
-                case 4 -> System.out.println("Exiting..."); // Exit message
+                case 4 -> deadline(scanner);
+                case 5 -> System.out.println("Exiting..."); // Exit message
                 default -> System.out.println("Invalid choice. Try again."); // Handle invalid input
             }
-        } while (choice != 4); // Loop until user selects option 4 (Exit)
+        } while (choice != 5); // Loop until user selects option 4 (Exit)
 
         scanner.close(); // Close scanner to prevent memory leaks
+    }
+
+    private static void deadline(Scanner scanner) {
+        if (tasks.isEmpty()) {
+            System.out.println("No Task Deadline");
+        }else{
+            System.out.println("Enter Deadline:");
+            String deadline = scanner.nextLine();
+            deadlines.add(deadline);
+
+
+        }
     }
 
     /**
@@ -51,7 +66,7 @@ public class ToDoListApp {
      */
     private static void addTask(Scanner scanner) {
         System.out.print("Enter task: ");
-        String task = scanner.nextLine(); // Read task from user
+        String task = scanner.nextLine();// Read task from user
         tasks.add(task); // Add task to the list
         System.out.println("Task added!"); // Confirmation message
     }
@@ -66,8 +81,9 @@ public class ToDoListApp {
             System.out.println("\nYour Tasks:");
             // Loop through the list and display each task with a number
             for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + ". " + tasks.get(i));
+                System.out.println((i + 1) + ". " + tasks.get(i) + " - Deadline: " + deadlines.get(i));
             }
+
         }
     }
 
@@ -89,5 +105,9 @@ public class ToDoListApp {
         } else {
             System.out.println("Invalid task number."); // Handle invalid input
         }
+    }
+
+    public static ArrayList<String> getDeadline() {
+        return deadlines;
     }
 }
